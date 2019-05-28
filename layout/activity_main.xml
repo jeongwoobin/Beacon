@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvId"
+        android:layout_width="750px"
+        android:layout_height="300px"
+        android:layout_x="65dp"
+        android:layout_y="500dp"
+        android:text="TextView"
+        android:textSize="60sp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/gotoinfo"
+        android:layout_width="300px"
+        android:layout_height="150px"
+        android:layout_x="150dp"
+        android:layout_y="650dp"
+        android:text="모듈정보" />
+
+</AbsoluteLayout>
