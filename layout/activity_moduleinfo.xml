@@ -1,16 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ModuleInfo">
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="300px"
-        android:layout_height="150px"
-        android:layout_x="150dp"
-        android:layout_y="650dp"
-        android:text="뒤로" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</AbsoluteLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="100dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Where's your"
+                android:textSize="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center|left"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beacon"
+                android:textSize="60dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center|right"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* UUID"
+                android:textSize="50sp"
+                android:layout_marginLeft="15dp"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/uuid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="UUID 값"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* MAJOR"
+                android:textSize="50sp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/major"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Major 값"
+                android:textSize="20sp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* MINOR"
+                android:textSize="50sp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/minor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Minor 값"
+                android:textSize="20sp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top">
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="홈으로"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,25 +1,14 @@
-// ** 현재 완성한것
-// - Rssi값 받아와서 TextView에 주기마다 띄우기
-// - 버튼 구현
-//
-//
-// ** 해야하는것
-// - Intent
-// - 버튼누르면 튕김
-// - layout
-// - 실시간인지, 데이터가 쌓여서 천천히나오는건지 알아보기
-// - Rssi값으로 거리 구할수있는지
-
 package com.example.mybeacon2;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
@@ -30,75 +19,80 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class MainActivity extends AppCompatActivity{
-    private Button gotoinfo;
+public class MainActivity extends Activity {
+    Vibrator vib;
 
     private BeaconManager beaconManager;
     private BeaconRegion region;
 
-    private TextView tvId;
+    private TextView tvId, mes;
+    private Button gotoinfo;
+
+    int txPower = -59;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
-
-//        Toast.makeText(MainActivity.this, "onCreate 진입", Toast.LENGTH_SHORT).show();
-
         super.onCreate(savedInstanceState);
+
+        vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        tvId = (TextView)findViewById(R.id.tvId);
+        mes = (TextView)findViewById(R.id.mes);
 
         gotoinfo=(Button)findViewById(R.id.gotoinfo);
         gotoinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "onClick 진입", Toast.LENGTH_SHORT).show();
-
                 if(v.getId()==R.id.gotoinfo) {
                     Intent intent = new Intent(MainActivity.this, ModuleInfo.class);
+                    intent.putExtra("uuid", ""+region.getProximityUUID());
+                    intent.putExtra("major", ""+region.getMajor());
+                    intent.putExtra("minor", ""+region.getMinor());
                     startActivity(intent);
                 }
-
             }
         });
-
-        tvId = (TextView)findViewById(R.id.tvId);
 
         beaconManager = new BeaconManager(this);
 
         beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
             @Override
             public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<Beacon> beacons) {
-
-//                Toast.makeText(MainActivity.this, "onBeaconsDiscovered 진입", Toast.LENGTH_SHORT).show();
-
                 if(!beacons.isEmpty()) {
-
-//                    Toast.makeText(MainActivity.this, "if문 진입", Toast.LENGTH_SHORT).show();
-
                     Beacon nearestBeacon = beacons.get(0);
                     Log.d("MyPhone", Integer.toString(nearestBeacon.getRssi()));
-                    tvId.setText(Integer.toString(nearestBeacon.getRssi()));
+                    double dis = calculateAccuracy(txPower, nearestBeacon.getRssi());
+                    String sDis = String.format("%.2f", dis);
+                    tvId.setText("예측거리 >> " + sDis);
+
+                    if(nearestBeacon.getRssi()>=(-50)) {
+                        mes.setText("신호 강함");
+                        vib.cancel();
+                    }
+                    else if(nearestBeacon.getRssi()>=(-70)) {
+                        mes.setText("신호 보통");
+                        vib.vibrate(new long[]{200, 500, 200, 700}, -1);
+                    }
+                    else {
+                        mes.setText("신호 약함");
+                        vib.vibrate(new long[]{200, 1000}, -1);
+                    }
                 }
             }
         });
         region = new BeaconRegion("ranged region", UUID.fromString("74278bda-b644-4520-8f0c-720eaf059935"), 0xFFE0, 0xFFE1);
-
     }
 
     @Override
     protected void onResume() {
-
-//        Toast.makeText(MainActivity.this, "onResume 진입", Toast.LENGTH_SHORT).show();
-
         super.onResume();
-
+        //블루투스 권한 및 활성화코드
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
-
-//                Toast.makeText(MainActivity.this, "onServiceReady 진입", Toast.LENGTH_SHORT).show();
-
                 beaconManager.startRanging(region);
             }
         });
@@ -106,11 +100,27 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onPause() {
-
-//        Toast.makeText(MainActivity.this, "onPause 진입", Toast.LENGTH_SHORT).show();
-
         //beaconManager.stopRanging(region);
-
         super.onPause();
+    }
+
+    protected static double calculateAccuracy(int txPower, int rssi) {
+        if(rssi == 0) {
+            return -1.0;
+        }
+        double ratio = rssi*1.0/txPower;
+        if(ratio < 1.0) {
+            return Math.pow(ratio, 10);
+        }
+        else {
+            double accuracy = (0.89976)*Math.pow(ratio, 7.7095) + 0.111;
+            return accuracy;
+        }
+    }
+
+    @Override
+    protected  void onDestroy() {
+        super.onDestroy();
+        vib.cancel();
     }
 }

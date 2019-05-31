@@ -1,26 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvId"
-        android:layout_width="750px"
-        android:layout_height="300px"
-        android:layout_x="65dp"
-        android:layout_y="500dp"
-        android:text="TextView"
-        android:textSize="60sp"
-        android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/gotoinfo"
-        android:layout_width="300px"
-        android:layout_height="150px"
-        android:layout_x="150dp"
-        android:layout_y="650dp"
-        android:text="모듈정보" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="100dp">
 
-</AbsoluteLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Where's your"
+                android:textSize="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center|left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beacon"
+                android:textSize="60dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center|right"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/mes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="--연결안됨--"
+                android:textSize="70sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tvId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="--연결안됨--"
+                android:textSize="50sp"
+                android:layout_marginTop="30dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top">
+
+            <Button
+                android:id="@+id/gotoinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:text="모듈정보"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:autoLink="web"
+                android:text="https://github.com/jeongwoobin"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
